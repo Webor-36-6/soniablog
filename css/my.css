@@ -1,0 +1,16 @@
+@media (max-width: 480px) {
+   form button.btn {
+      max-width: 90%;
+      font-size: 4vw;
+      padding: 15px;
+   }
+   .single-pricing {
+      padding: 10px 0;
+   }
+   .pricing-wrap {
+      padding: 10px;
+   }
+   iframe {
+      margin-top: 20px;
+   }
+}

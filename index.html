@@ -1,0 +1,742 @@
+<?php
+$api = [
+    'key' => '6414',
+    'secret' => '34803e7fce88a048a625e598116fbbaa',
+    'flow_url' => 'https://leadrock.com/URL-5F945-8BB0F'
+];
+
+function send_the_order($post, $api)
+{
+    $params = [
+        'flow_url' => $api['flow_url'],
+        'user_phone' => $post['phone'],
+        'user_name' => $post['name'],
+        'other' => $post['other'],
+        'ip' => $_SERVER['REMOTE_ADDR'],
+        'ua' => $_SERVER['HTTP_USER_AGENT'],
+        'api_key' => $api['key'],
+        'sub1' => $post['sub1'],
+        'sub2' => $post['sub2'],
+        'sub3' => $post['sub3'],
+        'sub4' => $post['sub4'],
+        'sub5' => $post['sub5'],
+        'ajax' => 1,
+    ];
+    $url = 'https://leadrock.com/api/v2/lead/save';
+
+    $trackUrl = $params['flow_url'] . (strpos($params['flow_url'], '?') === false ? '?' : '&') . http_build_query($params);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $trackUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+    $params['track_id'] = curl_exec($ch);
+
+    $params['sign'] = sha1(http_build_query($params) . $api['secret']);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    curl_exec($ch);
+    curl_close($ch);
+
+    header('Location: ' . (empty($post['success_page']) ? 'confirm.html' : $post['success_page']));
+}
+
+if (!empty($_POST['phone'])) {
+    send_the_order($_REQUEST, $api);
+}
+
+if (!empty($_GET)) {
+?>
+    <script type="text/javascript">
+        window.onload = function() {
+            let forms = document.getElementsByTagName("form");
+            for(let i=0; i<form action="index.php" s.length; i++) {
+                let form = forms[i];
+                form.setAttribute('action', form.getAttribute('action') + "?<?php echo http_build_query($_GET)?>");
+                form.setAttribute('method', 'post');
+            }
+        };
+    </script>
+<?php
+}
+
+?>
+<!DOCTYPE html>
+<html class="no-js" lang="it">
+
+<head>
+  <!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '327016118827347');
+  fbq('track', 'PageView');
+</script>
+
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=327016118827347&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>SCHIUMA MAGICA - Detergente attivo rivoluzionario!</title>
+    <meta name="description" content />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--fontawesome-->
+    <link rel="stylesheet" href="css/all.css" />
+    <!--google fonts-->
+    <link href="css/css2.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
+    <!-- CSS here -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/slick.css" />
+    <link rel="stylesheet" href="css/flaticon.css" />
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/default.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link rel="stylesheet" href="css/my.css">
+
+</head>
+
+<body>
+    <!-- preloader -->
+    <div id="preloader">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two"></div>
+                <div class="object" id="object_three"></div>
+            </div>
+        </div>
+    </div>
+    <!-- preloader-end -->
+
+    <!-- header-start -->
+    <header>
+        <div id="header-sticky" class="main-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="main-menu">
+                            <nav class="navbar navbar-expand-lg">
+                                <a href class="navbar-brand"> <img src="img/logo_1.png" alt /></a>
+
+                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#navbarNav">
+                                    <span class="navbar-icon"></span>
+                                    <span class="navbar-icon"></span>
+                                    <span class="navbar-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item active"><a class="nav-link" href="#home">Home</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#features">Il Prodotto</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#order">Modalit&agrave; di
+                                                Utilizzo</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#supplement">Caratteristiche
+                                                Tecniche</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#ingredient">Recensioni</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#contact">Faq</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="header-btn d-none d-xl-block">
+                                    <a href="#buy_form" class="btn">ordina ora</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-start-end -->
+    <!-- main-area -->
+    <main>
+        <!-- slider-area -->
+        <section id="home" class="slider-area slider-bg d-flex align-items-center">
+            <div class="container">
+                <div class="slider-overflow">
+                    <div class="row">
+                        <div class="col-lg-6 order-0 order-lg-2">
+                            <div class="slider-img text-center text-lg-right text-xl-center position-relative">
+                                <img src="img/slider_img.png" alt="img" class="wow fadeInRight" data-wow-delay="0.6s" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="slider-content">
+                                <h2 class="wow fadeInUp" data-wow-delay="0.2s">SCHIUMA <span>MAGICA</span></h2>
+                                <h3>LA SOLUZIONE DEFINITIVA PER LA PULIZIA DI CASA E AUTO</h3>
+                                <ul class="fw-link wow fadeInUp" data-wow-delay="0.4s">
+                                    <li><i class="fas fa-caret-right"></i> Perfetta per <b>tessuti, plastiche, vetri e
+                                            ceramiche</b></li>
+                                    <li><i class="fas fa-caret-right"></i> Rimuove anche lo <b>sporco pi&ugrave;
+                                            ostinato</b></li>
+                                    <li><i class="fas fa-caret-right"></i> <b>Facile e veloce</b></li>
+                                    <li><i class="fas fa-caret-right"></i> Speciale <b>panno in microfibra</b> incluso
+                                    </li>
+                                </ul>
+                                <h3 style="margin-bottom: 20px;" class="wow fadeInUp" data-wow-delay="0.2s">SUPER
+                                    OFFERTA LIMITATA 2 BOTTIGLIE da 500ml cad. A SOLI 59&euro;!</h3>
+                                <div class="text-center">
+                                    <a href="#buy_form" class="btn wow fadeInLeft" data-wow-delay="0.6s">ATTIVA LA
+                                        PROMOZIONE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="col-md-4 col-sm-12">
+                            <img style="width: 100%; border-radius: 25px; margin-bottom: 15px;"
+                                src="img/product_thumb.jpg" alt="img" />
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                            <img style="width: 100%; border-radius: 25px; margin-bottom: 15px;"
+                                src="img/product_thumb02.jpg" alt="img" />
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                            <img style="width: 100%; border-radius: 25px; margin-bottom: 15px;"
+                                src="img/product_thumb03.jpg" alt="img" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- slider-area-end -->
+        <!-- fact-area -->
+        <section id="features" class="fact-area fact-bg">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="white-title col-lg-6 col-md-6 col-sm-12">
+                        <div class="section-title white-title">
+                            <h2>RIMUOVI LO SPORCO IN MANIERA FACILE E VELOCE</h2>
+                        </div>
+                        <p>Hai sempre sognato di avere un <b>unico prodotto</b> per la <b>pulizia di tutta la casa?</b>
+                            Schiuma Magica &egrave; la soluzione che fa per te!</p>
+
+                        <p>
+                            <b>Schiuma Magica</b> &egrave; l&rsquo;innovativo sistema di pulizia <b>Made in Germany</b>
+                            che ti permette di <b>pulire qualsiasi cosa</b> in casa tua <b>in maniera facile e veloce:
+                                spruzzala</b> in bagno,
+                            in cucina o sui vetri, <b>lasciala riposare</b> per qualche secondo e rimuovila con lo
+                            speciale panno double face in microfibra per avere dei <b>risultati sorprendenti</b> senza
+                            dover strofinare per ore!
+                        </p>
+
+                        <p>
+                            Il <b>segreto</b> sta nella sua speciale formula che <b>avvolge qualsiasi tipo di
+                                sporcizia</b> rimuovendolo completamente e <b>senza rovinare</b> le superfici degli
+                            oggetti. Puoi utilizzare Schiuma Magica
+                            <b>su tutti i tipi di superficie</b>, dai <b>tessuti</b> alle <b>plastiche</b>, dai
+                            <b>metalli</b> ai <b>vetri</b> e alle <b>ceramiche!</b>
+                        </p>
+
+                        <p>Di&rsquo; addio a tutti quei prodotti specifici e <b>risparmia tempo, soldi e spazio</b> con
+                            Schiuma Magica!</p>
+
+                        <div style="margin-top: 30px;" class="text-center">
+                            <a href="#buy_form" class="btn">ORDINA ORA</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="rwd-video">
+                            <iframe src="https://www.youtube.com/embed/hf2CgYu-mXo" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- fact-area-end -->
+        <!-- features-area -->
+        <section class="features-area features-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-6">
+                        <div class="single-features text-center mb-30">
+                            <div class="features-icon mb-20">
+                                <img src="img/img1.png" class="img-fluid" />
+                            </div>
+
+                            <div class="features-content">
+                                <h2>
+                                    Non aspettare!<br />
+                                    Approfitta della SUPER PROMO 2 BOTTIGLIE DA 500ML cad. A SOLI 59&euro; e ordina
+                                    ora SCHIUMA MAGICA!
+                                </h2>
+                                <a href="#buy_form" class="btn">ORDINA ORA</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- features-area-end -->
+        <!-- perched-area -->
+        <section id="order" class="perched-area pt-70 pb-60">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8 col-md-10">
+                        <div class="section-title text-center mb-25">
+                            <h2>FUNZIONA DAPPERTUTTO!</h2>
+                            <div class="bar"></div>
+                            <p>
+                                <b>Schiuma Magica rimuove ogni tipo di macchia:</b> l&rsquo;abbiamo messa alla prova con
+                                <b>incrostazioni, unto</b> e <b>calcare</b> e il risultato &egrave; stato sempre
+                                strabiliante! La sua formula
+                                &egrave; infatti <b>aggressiva con lo sporco</b> ma <b>delicata con le superfici</b>,
+                                rendendo Schiuma Magica
+                                <b>adatta a tutti i tipi di piani da cucina, servizi sanitari e pareti!</b>
+                            </p>
+                            <p>Puoi utilizzare Schiuma Magica addirittura <b>per la tua auto:</b> una bella
+                                comodit&agrave;, dato che ti consente di <b>lavare la tua macchina senza il bisogno di
+                                    acqua!</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 text-right">
+                        <img style="width: 100%; max-width: 400px; border-radius: 25px; margin-bottom: 15px;"
+                            src="img/product_thumb04.gif" alt="img" />
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                        <img style="width: 100%; max-width: 400px; border-radius: 25px; margin-bottom: 15px;"
+                            src="img/product_thumb05.jpg" alt="img" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- perched-area-end -->
+        <!-- video-area -->
+        <section class="video-area video-bg">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-xl-7 col-lg-8">
+                        <div class="video-title text-center">
+                            <h2>
+                                Cosa aspetti? <br />
+                                OFFERTA LIMITATA 2 BOTTIGLIE DA 500ML A SOLI 59&euro;!
+                            </h2>
+
+                            <a href="#buy_form" class="btn">APPROFITTA DELLA PROMOZIONE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- video-area-end -->
+        <!-- services-area -->
+        <section id="supplement" class="services-area pt-60 pb-60">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-6 d-none d-xl-block">
+                        <div class="d-services-img">
+                            <img style="width: 100%; border-radius: 25px;" src="img/product1.jpg" alt="img" />
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="single-delivery-services mb-70 pl-40">
+                            <div class="ds-icon">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </div>
+                            <div class="ds-content">
+                                <h5><b>2 BOTTIGLIE DA 500ML</b></h5>
+                            </div>
+                        </div>
+                        <div class="single-delivery-services mb-70 pl-40">
+                            <div class="ds-icon">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </div>
+                            <div class="ds-content">
+                                <h5>Comodo <b>spray</b> per l&rsquo;applicazione</h5>
+                            </div>
+                        </div>
+                        <div class="single-delivery-services mb-70 pl-40">
+                            <div class="ds-icon">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </div>
+                            <div class="ds-content">
+                                <h5><b>Panno in microfibra double face</b></h5>
+                            </div>
+                        </div>
+                        <div class="single-delivery-services mb-70 pl-40">
+                            <div class="ds-icon">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </div>
+                            <div class="ds-content">
+                                <h5><b>Made in Germany</b></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- services-area-end -->
+        <section id="ingredient" class="doctor-area doctor-bg pt-60 pb-65">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8 col-md-10">
+                        <div class="section-title white-title text-center mb-55">
+                            <h2>Cosa dicono i nostri clienti</h2>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="doctor-wrap pl-80 pr-80">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="single-doctor mb-55">
+                                <div class="doctor-thumb">
+                                    <img src="img/client-1.jpg" alt="img" />
+                                </div>
+
+                                <div class="doctor-content">
+                                    <p>Rimuove veramente <b>tutti i tipi di sporco!</b> Per risultati ottimali,
+                                        consiglio di <b>farla riposare qualche minuto</b> sulla macchia.</p>
+                                    <div class="doctor-info">
+                                        <h6><span>- Marisa, 58 anni</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-doctor mb-55">
+                                <div class="doctor-thumb">
+                                    <img src="img/client-2.jpg" alt="img" />
+                                </div>
+
+                                <div class="doctor-content">
+                                    <p>
+                                        Finalmente un prodotto veramente <b>universale!</b> Non stavo pi&ugrave; dentro
+                                        a comprare i vari prodotti specifici per le superfici&hellip; Schiuma Magica mi
+                                        ha fatto <b>salvare</b> tantissimo
+                                        <b>tempo, soldi e spazio!</b>
+                                    </p>
+                                    <div class="doctor-info">
+                                        <h6><span>- Martina, 33 anni</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-doctor mb-55">
+                                <div class="doctor-thumb">
+                                    <img src="img/client-3.jpg" alt="img" />
+                                </div>
+
+                                <div class="doctor-content">
+                                    <p>Uso Schiuma Magica <b>per pulire la mia auto</b> e il garage, e devo dire che
+                                        &egrave; <b>perfetta</b> per tutti i tipi di macchie. Ottimo lavoro.</p>
+                                    <div class="doctor-info">
+                                        <h6><span>- Pietro, 54 anni</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- pricing-area -->
+        <section id="price" class="pricing-area pt-60 pb-60">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8 col-md-10">
+                        <div class="section-title text-center mb-55">
+                            <h2>SUPER OFFERTA LIMITATA</h2>
+                            <div class="bar"></div>
+                            <p>
+                                <b>Ancora per pochi giorni IL SET COMPLETO SCHIUMA MAGICA (Composto da 2 BOTTIGLIE DA
+                                    500ML + PANNO + EROGATORE) &egrave; in offerta SPECIALE a soli
+                                    59&euro;.</b><br />
+                                Compila il modulo sottostante con i tuoi dati e attiva la promozione.
+                                <b>La spedizione &egrave; gratuita e paghi direttamente alla consegna.</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-wrap pl-80 pr-80">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-8 col-md-10">
+                            <div id="buy_form" class="single-pricing text-center mb-30">
+                                <!-- <iframe
+                                    sandbox="allow-top-navigation allow-forms allow-scripts allow-same-origin allow-popups"
+                                    id="buy-frame" src="wsir_schiumamagica2x1.html"
+                                    style="padding: 15px; height: 1000px; width: 100%; background: white; border: 3px dashed #3a926c;"></iframe> -->
+                                <div class="container" style="max-width: 500px;">
+
+                                    <form action="index.php"  method="post" accept-charset="utf-8" role="form" >
+
+                                        <center>
+                                            <h3 class="title">COMPILA IL MODULO</h3>
+                                        </center>
+                                        <div class="form-group">
+                                            <label>Nome e Cognome</label>
+                                            <input type="text" name="name" class="form-control"
+                                                placeholder="Inserisci Nome e Cognome" required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Telefono (Meglio Cellulare)</label>
+                                            <input type="tel" name="phone" class="form-control"
+                                                placeholder="Inserisci il tuo numero di telefono" required="required"
+                                                value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Indirizzo e n. civico</label>
+                                            <input type="text" name="other[address]" class="form-control"
+                                                placeholder="ES. Via Aldo moro, 130" required="required" value="" />
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-8">
+                                                <label>Città</label>
+                                                <input type="text" name="other[city]" class="form-control"
+                                                    placeholder="ES. Milano" required="required" value="" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>CAP</label>
+                                                <input type="text" name="other[zipcode]" class="form-control"
+                                                    placeholder="ES. 94112" required="required" value="" />
+                                            </div>
+                                        </div>
+
+
+                                        <!-- <div class="form-group">
+                                            <label>E-mail (Facoltativo)</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="Inserisci il tuo indirizzo e-mail" value="" />
+                                        </div> -->
+                                        <div class="form-row offer-selection" data-images='[]'
+                                            data-default-img='img/2979_4379331d3c9167c5b2f80a81db6a3114_1602574612.png'>
+                                            <div class="col-auto text-center d-flex align-items-center"
+                                                data-toggle="lightbox">
+                                                <img data-jslghtbx style="max-width:100%;max-height:80px;"
+                                                    src="img/2979_4379331d3c9167c5b2f80a81db6a3114_1602574612.png">
+                                            </div>
+                                            <div class="form-group col text-center">
+                                                <span>Offerta attiva:</span>
+                                                <h5>2 flaconi da 500ml a 59€</h5>
+                                                <select name="other[quantity]" class="d-none" required="required">
+                                                    <option selected value="2">2 flaconi da 500ml a 59€</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <span style="
+                                          color: black;
+                                          padding: 4px;
+                                          background: #ffc205;
+                                          font-weight: bold;
+                                          border-radius: 5px;
+                                          ">&nbsp;<i class="fa fa-truck"></i> La spedizione è gratis! </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Note per il corriere</label>
+                                            <input type="text" name="other[notes]" class="form-control" rows="2"
+                                                placeholder="ES. Citofonare al Sig. Rossi" value="" />
+                                        </div>
+
+                                        <center>
+                                            <button id="submit-button" class="btn btn-lg btn-warning new-sbm-btn"
+                                                type="submit">Completa l'acquisto</button>
+
+                                        </center>
+                                    <input type="hidden" name="sub1" value="{subid}">
+</form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- pricing-area-end -->
+        <!-- faq-area -->
+        <section id="contact" class="faq-area faq-bg pt-60 pb-60">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8 col-md-10">
+                        <div class="section-title text-center mb-55">
+                            <h2>FAQ</h2>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-lg-10">
+                        <div class="faq-wrapper-padding">
+                            <div class="faq-wrapper">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse"
+                                                    data-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                    Questo prodotto si pu&ograve; usare su qualsiasi superficie?
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>S&igrave;, Schiuma Magica &egrave; in grado di dissolvere qualsiasi
+                                                    tipo di macchia e sporco!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <a href="#" class="btn-link" data-toggle="collapse"
+                                                    data-target="#collapseTwo" aria-expanded="false"
+                                                    aria-controls="collapseTwo">
+                                                    Pu&ograve; essere utilizzato all&rsquo;interno dell&rsquo;auto senza
+                                                    rovinare gli interni e i tessuti?
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>
+                                                    S&igrave;, Schiuma Magica &egrave; stato realizzato per essere
+                                                    utilizzato sia all&rsquo;interno che all&rsquo;esterno
+                                                    dell&rsquo;auto senza arrecare nessun danno, neanche ai tessuti
+                                                    pi&ugrave; delicati.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h5 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse"
+                                                    data-target="#collapseThree" aria-expanded="false"
+                                                    aria-controls="collapseThree">
+                                                    Quanti lavaggi posso effettuare con due flaconi da 500ml?
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>&Egrave; possibile effettuare fino a 20 lavaggi con due flaconi di
+                                                    Schiuma Magica da 500ml. cad.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingFour">
+                                            <h5 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse"
+                                                    data-target="#collapseFour" aria-expanded="false"
+                                                    aria-controls="collapseFour">
+                                                    Il panno in microfibra &egrave; in dotazione?
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>S&igrave;, troverai il panno in microfibra all&rsquo;interno del tuo
+                                                    pacco!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- faq-area-end -->
+    </main>
+    <!-- main-area-end -->
+    <!-- footer -->
+    <footer>
+        <div class="copyright-wrap">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div>
+                        <div class="copyright-text">
+                            <p>Trazard inc. Grenadierstrasse 12, floor 9-16 4058 Basel, Switzerland</p>
+                            <p><a href="policy_it.html" target="_blank">Informativa sulla privacy</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer-end -->
+    <!-- JS here -->
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/isotope.pkgd.min.js"></script> -->
+    <script src="js/one-page-nav-min.js"></script>
+    <!-- <script src="js/slick.min.js"></script> -->
+    <script src="js/wow.min.js"></script>
+    <!-- <script src="js/jquery.counterup.min.js"></script> -->
+    <!-- <script src="js/jquery.waypoints.min.js"></script> -->
+    <!-- <script src="js/imagesloaded.pkgd.min.js"></script> -->
+    <!-- <script src="js/jquery.magnific-popup.min.js"></script> -->
+    <!-- <script src="js/plugins.js"></script> -->
+    <script src="js/main.js"></script>
+    <script>
+        $('a[href^="#"]').click(function () {
+            var elementClick = $(this).attr("href");
+            var destination = $(elementClick).offset().top;
+            jQuery("html:not(:animated), body:not(:animated)").animate({ scrollTop: destination - 100 }, 800);
+            return false;
+        });
+    </script>
+    <script>
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+            m[i].l = 1 * new Date(); k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym(74822278, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+<script type="text/javascript" src="https://cdn.ldrock.com/validator.js"></script>
+<script type="text/javascript">
+    LeadrockValidator.init({
+        geo: {
+            iso_code: 'IT'
+        }
+    });
+</script>
+</body>
+
+</html>
